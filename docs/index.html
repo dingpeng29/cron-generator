@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="免费在线Cron表达式生成器，可视化配置定时任务。支持Linux Crontab、Quartz格式。生成人类可读的执行描述，预览下次执行时间。DevOps必备工具。">
+<meta name="keywords" content="Cron表达式,Cron生成器,Crontab,定时任务,Quartz Cron,Linux定时任务,调度表达式">
+<meta property="og:title" content="Cron表达式在线生成器 - Crontab Generator | ToolBox Pro">
+<meta property="og:description" content="可视化生成Cron表达式，支持Linux Crontab和Quartz格式，预览执行时间。">
+<meta property="og:url" content="https://dingpeng29.github.io/cron-generator/">
+<title>Cron表达式生成器 - Crontab Generator | 定时任务调度 | ToolBox Pro</title>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebApplication","name":"Cron表达式生成器","url":"https://dingpeng29.github.io/cron-generator/","description":"在线可视化生成Cron表达式，支持Linux Crontab和Quartz格式","applicationCategory":"Utility","operatingSystem":"All","inLanguage":"zh-CN"}
+</script>
+<style>
+:root{--bg:#f8fafc;--card:#fff;--text:#1e293b;--text2:#64748b;--border:#e2e8f0;--primary:#3b82f6;--primary-h:#2563eb;--green:#10b981;--shadow:0 1px 3px rgba(0,0,0,0.06);--radius:12px;--radius-sm:8px;}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:var(--bg);color:var(--text);line-height:1.6;min-height:100vh;}
+.header{background:var(--card);border-bottom:1px solid var(--border);padding:0 24px;height:60px;display:flex;align-items:center;justify-content:space-between;}
+.header .logo{font-size:20px;font-weight:700;text-decoration:none;color:var(--text);display:flex;align-items:center;gap:8px;}
+.header .back{color:var(--text2);text-decoration:none;font-size:14px;}.header .back:hover{color:var(--primary);}
+.container{max-width:900px;margin:0 auto;padding:24px 20px;}
+.hero{text-align:center;padding:32px 20px 24px;}
+.hero h1{font-size:28px;font-weight:800;color:var(--text);}
+.hero p{color:var(--text2);font-size:14px;margin-top:8px;}
+.card{background:var(--card);border-radius:var(--radius);padding:20px;box-shadow:var(--shadow);border:1px solid var(--border);margin-bottom:20px;}
+.preset-row{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:20px;}
+.preset-btn{padding:6px 14px;border-radius:16px;border:1px solid var(--border);background:var(--bg);cursor:pointer;font-size:12px;color:var(--text2);transition:all .15s;}
+.preset-btn:hover{border-color:var(--primary);color:var(--primary);}
+.preset-btn.active{background:var(--primary);color:#fff;border-color:var(--primary);}
+.field-row{display:flex;align-items:center;gap:12px;margin-bottom:12px;padding:10px 14px;background:var(--bg);border-radius:var(--radius-sm);border:1px solid var(--border);}
+.field-row .label{font-size:13px;font-weight:700;color:var(--text);min-width:100px;}
+.field-row .label small{display:block;font-size:10px;color:var(--text2);font-weight:400;}
+.field-row input{flex:1;padding:8px 12px;border:1px solid var(--border);border-radius:6px;font-size:13px;font-family:'SF Mono','Consolas',monospace;background:var(--card);}
+.field-row input:focus{outline:none;border-color:var(--primary);box-shadow:0 0 0 2px rgba(59,130,246,0.1);}
+.field-row .quick-row{display:flex;gap:4px;flex-wrap:wrap;}
+.field-row .quick-btn{padding:4px 8px;border-radius:4px;border:1px solid var(--border);background:var(--card);cursor:pointer;font-size:11px;color:var(--text2);transition:all .1s;}
+.field-row .quick-btn:hover{background:var(--primary);color:#fff;border-color:var(--primary);}
+.result-section{padding:16px;background:#1e293b;border-radius:var(--radius-sm);text-align:center;}
+.result-section .cron{font-family:'SF Mono','Fira Code','Consolas',monospace;font-size:24px;font-weight:800;color:#6ee7b7;word-break:break-all;}
+.result-section .desc{color:#94a3b8;font-size:13px;margin-top:6px;}
+.result-section .next{color:#fde68a;font-size:12px;margin-top:4px;}
+.btn{padding:10px 20px;border-radius:var(--radius-sm);font-size:14px;font-weight:600;cursor:pointer;border:none;transition:all .2s;}
+.btn-primary{background:var(--primary);color:#fff;}.btn-primary:hover{background:var(--primary-h);}
+.btn-green{background:var(--green);color:#fff;}.btn-green:hover{background:#059669;}
+.btn-secondary{background:var(--bg);color:var(--text);border:1px solid var(--border);}.btn-secondary:hover{background:var(--border);}
+.btn-row{display:flex;gap:8px;flex-wrap:wrap;margin-top:16px;justify-content:center;}
+.format-switch{display:flex;gap:8px;justify-content:center;margin-bottom:16px;}
+.format-btn{padding:6px 14px;border-radius:16px;border:1px solid var(--border);background:var(--bg);cursor:pointer;font-size:12px;color:var(--text2);}
+.format-btn.active{background:var(--primary);color:#fff;border-color:var(--primary);}
+.footer{text-align:center;padding:32px 20px;color:var(--text2);font-size:12px;border-top:1px solid var(--border);margin-top:32px;}.footer a{color:var(--primary);text-decoration:none;}
+.powered{text-align:center;font-size:13px;color:var(--text2);margin-top:24px;}.powered a{color:var(--primary);text-decoration:none;font-weight:600;}
+.toast{position:fixed;top:20px;right:20px;padding:10px 18px;border-radius:var(--radius-sm);color:#fff;font-size:13px;z-index:9999;animation:slideIn .3s;background:var(--green);}
+@keyframes slideIn{from{opacity:0;transform:translateX(40px);}to{opacity:1;transform:translateX(0);}}
+@media(max-width:640px){.hero h1{font-size:22px;}.field-row{flex-direction:column;align-items:flex-start;}}
+</style>
+</head>
+<body>
+<header class="header"><a href="/cron-generator/" class="logo">⏰ Cron Generator</a><a href="/toolbox-pro/" class="back">← ToolBox Pro</a></header>
+<div class="container">
+<div class="hero"><h1>Cron 表达式在线生成器</h1><p>可视化生成 Cron 定时任务表达式。支持 Linux Crontab 和 Quartz 格式。自动生成人类可读的执行描述，预览下次执行时间。</p></div>
+
+<div class="card">
+<div class="format-switch">
+<button class="format-btn active" data-mode="linux" onclick="setMode('linux')">Linux Crontab (5字段)</button>
+<button class="format-btn" data-mode="quartz" onclick="setMode('quartz')">Quartz (6-7字段)</button>
+</div>
+
+<div class="preset-row" id="presets">
+<button class="preset-btn" data-expr="* * * * *">每分钟</button>
+<button class="preset-btn" data-expr="*/5 * * * *">每5分钟</button>
+<button class="preset-btn" data-expr="0 * * * *">每小时</button>
+<button class="preset-btn" data-expr="0 0 * * *">每天0点</button>
+<button class="preset-btn" data-expr="0 0 * * 0">每周日</button>
+<button class="preset-btn" data-expr="0 0 1 * *">每月1号</button>
+<button class="preset-btn" data-expr="0 9 * * 1-5">工作日9点</button>
+<button class="preset-btn" data-expr="*/15 * * * *">每15分钟</button>
+<button class="preset-btn" data-expr="0 */6 * * *">每6小时</button>
+<button class="preset-btn" data-expr="0 0 * * 1">每周一0点</button>
+</div>
+
+<div id="fields">
+<div class="field-row"><div class="label">分钟<small>0-59</small></div><input type="text" id="f0" value="*" oninput="update()"><div class="quick-row"><button class="quick-btn" onclick="setField(0,'*')">*</button><button class="quick-btn" onclick="setField(0,'*/5')">*/5</button><button class="quick-btn" onclick="setField(0,'*/15')">*/15</button><button class="quick-btn" onclick="setField(0,'0')">0</button><button class="quick-btn" onclick="setField(0,'30')">30</button></div></div>
+<div class="field-row"><div class="label">小时<small>0-23</small></div><input type="text" id="f1" value="*" oninput="update()"><div class="quick-row"><button class="quick-btn" onclick="setField(1,'*')">*</button><button class="quick-btn" onclick="setField(1,'*/2')">*/2</button><button class="quick-btn" onclick="setField(1,'0')">0</button><button class="quick-btn" onclick="setField(1,'9')">9</button><button class="quick-btn" onclick="setField(1,'12')">12</button></div></div>
+<div class="field-row"><div class="label">日<small>1-31</small></div><input type="text" id="f2" value="*" oninput="update()"><div class="quick-row"><button class="quick-btn" onclick="setField(2,'*')">*</button><button class="quick-btn" onclick="setField(2,'1')">1</button><button class="quick-btn" onclick="setField(2,'15')">15</button><button class="quick-btn" onclick="setField(2,'L')">L</button></div></div>
+<div class="field-row"><div class="label">月<small>1-12</small></div><input type="text" id="f3" value="*" oninput="update()"><div class="quick-row"><button class="quick-btn" onclick="setField(3,'*')">*</button><button class="quick-btn" onclick="setField(3,'*/3')">*/3</button><button class="quick-btn" onclick="setField(3,'1')">1</button><button class="quick-btn" onclick="setField(3,'6')">6</button></div></div>
+<div class="field-row"><div class="label">星期<small>0-6</small></div><input type="text" id="f4" value="*" oninput="update()"><div class="quick-row"><button class="quick-btn" onclick="setField(4,'*')">*</button><button class="quick-btn" onclick="setField(4,'1-5')">1-5</button><button class="quick-btn" onclick="setField(4,'0')">0</button><button class="quick-btn" onclick="setField(4,'1')">1</button></div></div>
+</div>
+
+<div class="result-section" style="margin-top:16px;">
+<div class="cron" id="cronExpr">* * * * *</div>
+<div class="desc" id="cronDesc">每分钟执行</div>
+<div class="next" id="cronNext"></div>
+</div>
+
+<div class="btn-row">
+<button class="btn btn-green" onclick="copyCron()">📋 复制表达式</button>
+<button class="btn btn-secondary" onclick="resetCron()">重置</button>
+</div>
+</div>
+
+<div class="powered">由 <a href="/toolbox-pro/">ToolBox Pro</a> 提供支持 — 更多免费开发工具</div>
+</div>
+<footer class="footer"><p>Cron Expression Generator — 所有处理在浏览器本地完成 · <a href="https://github.com/dingpeng29/cron-generator" target="_blank">GitHub</a></p></footer>
+<script>
+var mode='linux';
+var dayNames=['日','一','二','三','四','五','六'];
+var monthNames=['1月','2月','3月','4月','5月','6月','7月','8月','9月','10月','11月','12月'];
+
+function setMode(m){
+mode=m;
+document.querySelectorAll('.format-btn').forEach(function(b){b.classList.remove('active');if(b.dataset.mode===m)b.classList.add('active');});
+var fields=document.getElementById('fields');
+if(m==='linux'){
+fields.innerHTML=document.querySelector('#fields').innerHTML;
+}else{
+// Quartz mode adds seconds and optional year
+}
+update();
+}
+
+function setField(i,v){
+document.getElementById('f'+i).value=v;update();
+}
+
+function update(){
+var parts=[];
+for(var i=0;i<5;i++){parts.push(document.getElementById('f'+i).value||'*');}
+var expr=parts.join(' ');
+document.getElementById('cronExpr').textContent=expr;
+document.getElementById('cronDesc').textContent=explainCron(parts);
+document.getElementById('cronNext').textContent=getNextRuns(parts);
+}
+
+function explainCron(parts){
+var m=parts[0],h=parts[1],d=parts[2],mo=parts[3],w=parts[4];
+var allStar=m==='*'&&h==='*'&&d==='*'&&mo==='*'&&w==='*';
+
+if(m==='*'&&h==='*'&&d==='*'&&mo==='*'&&w==='*')return'每分钟执行';
+
+var desc=[];
+
+// Time description
+if(m==='*'&&h==='*')desc.push('每分钟');
+else if(m.startsWith('*/')&&h==='*')desc.push('每'+m.slice(2)+'分钟');
+else if(h.startsWith('*/')&&m==='0')desc.push('每'+h.slice(2)+'小时');
+else{
+if(h!=='*'){
+var hDesc=parseRange(h,'小时');
+if(hDesc)desc.push(hDesc);
+}
+if(m!=='*'){
+var mDesc=parseRange(m,'分');
+if(mDesc)desc.push(mDesc);
+if(h==='*')desc.push('每小时');
+}
+}
+
+if(desc.length===0)desc.push('指定时间');
+
+// Day description
+if(d==='*'&&w==='*'&&mo==='*'){
+desc.push('每天');
+}else if(w!=='*'){
+var wDesc=parseDayOfWeek(w);
+if(wDesc)desc.push(wDesc);
+}else if(d!=='*'){
+var dDesc=parseRange(d,'号');
+if(dDesc)desc.push('每月的'+dDesc);
+}else if(mo!=='*'){
+var moDesc=parseRange(mo,'月');
+if(moDesc)desc.push(moDesc);
+}
+
+return desc.join('，')+'执行';
+}
+
+function parseRange(v,unit){
+if(v==='*')return null;
+if(v.startsWith('*/'))return'每'+v.slice(2)+unit;
+if(v.includes(','))return v.split(',').map(function(x){return x+unit;}).join('、');
+if(v.includes('-')){var r=v.split('-');return r[0]+unit+'到'+r[1]+unit;}
+return v+unit;
+}
+
+function parseDayOfWeek(v){
+if(v==='*')return null;
+if(v==='1-5')return'每个工作日(周一至周五)';
+if(v==='0,6'||v==='6,0')return'每个周末';
+if(v==='0')return'每周日';
+if(v==='1')return'每周一';
+var map={'0':'周日','1':'周一','2':'周二','3':'周三','4':'周四','5':'周五','6':'周六'};
+if(map[v])return'每'+map[v];
+if(v.includes(','))return v.split(',').map(function(x){return map[x]||x;}).join('、');
+return v;
+}
+
+function getNextRuns(parts){
+var now=new Date();
+var runs=[];
+var t=new Date(now);
+t.setSeconds(0,0);
+for(var n=0;n<5&&runs.length<3;n++){
+t.setMinutes(t.getMinutes()+1);
+if(matches(t,parts))runs.push(new Date(t));
+}
+if(runs.length===0)return'';
+return'接下来: '+runs.map(function(d){return d.toLocaleString('zh-CN',{month:'short',day:'numeric',hour:'2-digit',minute:'2-digit'});}).join(' · ');
+}
+
+function matches(date,parts){
+var m=date.getMinutes(),h=date.getHours(),d=date.getDate(),mo=date.getMonth()+1,w=date.getDay();
+return matchField(m,parts[0])&&matchField(h,parts[1])&&matchField(d,parts[2])&&matchField(mo,parts[3])&&matchField(w,parts[4]);
+}
+
+function matchField(val,pattern){
+if(pattern==='*')return true;
+if(pattern.startsWith('*/')){var n=parseInt(pattern.slice(2));return val%n===0;}
+if(pattern.includes(','))return pattern.split(',').some(function(p){return matchField(val,p);});
+if(pattern.includes('-')){var r=pattern.split('-');return val>=parseInt(r[0])&&val<=parseInt(r[1]);}
+return val===parseInt(pattern);
+}
+
+function copyCron(){
+var expr=document.getElementById('cronExpr').textContent;
+navigator.clipboard.writeText(expr).then(function(){toast('Cron表达式已复制: '+expr);});
+}
+
+function resetCron(){
+for(var i=0;i<5;i++)document.getElementById('f'+i).value='*';
+update();
+}
+
+function toast(m){
+var t=document.createElement('div');t.className='toast';t.textContent=m;document.body.appendChild(t);setTimeout(function(){t.remove();},1800);
+}
+
+document.querySelectorAll('.preset-btn').forEach(function(btn){
+btn.addEventListener('click',function(){
+var parts=btn.dataset.expr.split(' ');
+for(var i=0;i<5;i++)document.getElementById('f'+i).value=parts[i]||'*';
+update();
+document.querySelectorAll('.preset-btn').forEach(function(b){b.classList.remove('active');});
+btn.classList.add('active');
+});
+});
+
+update();
+</script>
+</body>
+</html>
